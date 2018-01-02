@@ -79,12 +79,6 @@ var HyperTable = function(columns, rows) {
   };
 
   self.view = function(state, actions) {
-    var thead = h('thead', {}, [
-      h('tr', {}, state.columns.map(function(column) {
-        return h('th', { onclick: function() { actions.handleSortChange(column.key); } }, `${column.title} ${state.sortKey === column.key ? (state.sortDir === 'asc' ? " \u2191" : " \u2193") : ''}`);
-      }))
-    ]);
-
     if (state.perPage !== -1) {
       var numPages = Math.round(state.rows.length / state.perPage);
 
@@ -127,32 +121,6 @@ var HyperTable = function(columns, rows) {
       });
     }
 
-    var tbody = h('tbody', {}, [
-      filteredRows.map(function(row) {
-        return h('tr', {}, state.columns.map(function(column) {
-          return h('td', {}, renderColumn(row[column.key], column.type));
-        }));
-      })
-    ]);
-
-    var footer = h('div', { className: 'row' }, [
-      h('div', { className: 'col-sm-6'}, [
-        h('span', {}, `Showing ${startIndex + 1} to ${filteredRows.length} of ${filteredRows.length} ${state.filter ? `(filtered from ${state.rows.length})` : ''}`)
-      ]),
-      h('div', { className: 'col-sm-6'}, [
-        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(1); }, disabled: state.pageNumber === 1 }, '<<'),
-        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(state.pageNumber - 1); }, disabled: state.pageNumber === 1 }, '<'),
-        h('button', { className: 'btn btn-sm btn-default', disabled: true }, `${state.pageNumber}`),
-        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(state.pageNumber + 1); }, disabled: state.pageNumber === numPages }, '>'),
-        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(numPages); }, disabled: state.pageNumber === numPages }, '>>')
-      ])
-    ]);
-
-    var table = h('table', { className: 'table table-bordered' }, [
-      thead,
-      tbody
-    ]);
-
     var header = h('div', { className: 'row' }, [
       h('div', { className: 'col-sm-6'}, [
         h('span', {}, 'Per page: '),
@@ -166,6 +134,38 @@ var HyperTable = function(columns, rows) {
       h('div', { className: 'col-sm-6' }, [
         h('span', {}, 'Search: '),
         h('input', { value: state.filter, onkeyup: function() { actions.setFilter(this.value); }, type: 'text' }, '')
+      ])
+    ]);
+
+    var thead = h('thead', {}, [
+      h('tr', {}, state.columns.map(function(column) {
+        return h('th', { onclick: function() { actions.handleSortChange(column.key); } }, `${column.title} ${state.sortKey === column.key ? (state.sortDir === 'asc' ? " \u2191" : " \u2193") : ''}`);
+      }))
+    ]);
+
+    var tbody = h('tbody', {}, [
+      filteredRows.map(function(row) {
+        return h('tr', {}, state.columns.map(function(column) {
+          return h('td', {}, renderColumn(row[column.key], column.type));
+        }));
+      })
+    ]);
+
+    var table = h('table', { className: 'table table-bordered' }, [
+      thead,
+      tbody
+    ]);
+
+    var footer = h('div', { className: 'row' }, [
+      h('div', { className: 'col-sm-6'}, [
+        h('span', {}, `Showing ${startIndex + 1} to ${filteredRows.length} of ${filteredRows.length} ${state.filter ? `(filtered from ${state.rows.length})` : ''}`)
+      ]),
+      h('div', { className: 'col-sm-6'}, [
+        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(1); }, disabled: state.pageNumber === 1 }, '<<'),
+        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(state.pageNumber - 1); }, disabled: state.pageNumber === 1 }, '<'),
+        h('button', { className: 'btn btn-sm btn-default', disabled: true }, `${state.pageNumber}`),
+        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(state.pageNumber + 1); }, disabled: state.pageNumber === numPages }, '>'),
+        h('button', { className: 'btn btn-sm btn-default', onclick: function() { actions.setPageNumber(numPages); }, disabled: state.pageNumber === numPages }, '>>')
       ])
     ]);
 
