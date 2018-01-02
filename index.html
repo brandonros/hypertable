@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style type="text/css">
+      .margin-bottom {
+        margin-bottom: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="destination"></div>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/hyperapp"></script>
+    <script type="text/javascript" src="hypertable.js"></script>
+
+    <script type="text/javascript">
+      var columns = [
+        {title: 'Name', key: 'name'},
+        {title: 'SKU', key: 'sku'},
+        {title: 'Barcode', key: 'barcode'},
+        {title: 'Cost', key: 'cost', type: 'currency', filterable: false},
+        {title: 'Margin', key: 'margin', type: 'percentage', filterable: false}
+      ];
+
+      var rows = [
+        {name: 'Widget A', sku: 'widget-a', barcode: '01010001A', cost: 1.23, margin: 0.23},
+        {name: 'Widget B', sku: 'widget-b', barcode: '01010001B'},
+        {name: 'Widget C', sku: 'widget-c', barcode: '01010001C'},
+        {name: 'Widget D', sku: 'widget-d', barcode: '01010001D'},
+        {name: 'Widget E', sku: 'widget-e', barcode: '01010001E'},
+        {name: 'Widget F', sku: 'widget-f', barcode: '01010001F'},
+        {name: 'Widget G', sku: 'widget-g', barcode: '01010001G'},
+        {name: 'Widget H', sku: 'widget-h', barcode: '01010001H'},
+        {name: 'Widget I', sku: 'widget-i', barcode: '01010001I'},
+        {name: 'Widget J', sku: 'widget-j', barcode: '01010001J'},
+        {name: 'Widget K', sku: 'widget-k', barcode: '01010001K'},
+        {name: 'Widget L', sku: 'widget-l', barcode: '01010001L'},
+        {name: 'Widget M', sku: 'widget-m', barcode: '01010001M'},
+        {name: 'Widget N', sku: 'widget-n', barcode: '01010001N'},
+        {name: 'Widget O', sku: 'widget-o', barcode: '01010001O'},
+        {name: 'Widget P', sku: 'widget-p', barcode: '01010001P'},
+        {name: 'Widget Q', sku: 'widget-q', barcode: '01010001Q'},
+        {name: 'Widget R', sku: 'widget-r', barcode: '01010001R'},
+        {name: 'Widget S', sku: 'widget-s', barcode: '01010001S'},
+        {name: 'Widget T', sku: 'widget-t', barcode: '01010001T'}
+      ];
+
+      var hyperTable = new HyperTable(columns, rows);
+
+      window.main = app(hyperTable.state, hyperTable.actions, hyperTable.view, document.getElementById('destination'));
+    </script>
+  </body>
+</html>
